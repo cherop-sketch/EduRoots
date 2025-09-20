@@ -1,0 +1,131 @@
+import zipfile
+import os
+
+# Directory structure
+base_dir = "EduRootsGitHubRepo"
+os.makedirs(f"{base_dir}/lessons", exist_ok=True)
+os.makedirs(f"{base_dir}/assets/css", exist_ok=True)
+
+# index.html
+index_html = """<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>EduRoots</title>
+  <link rel="stylesheet" href="assets/css/style.css" />
+</head>
+<body>
+  <header>
+    <h1>EduRoots</h1>
+    <p>Learning from the ground up, in every language.</p>
+    <nav>
+      <a href="#">Nature</a>
+      <a href="#">Science</a>
+      <a href="#">Environment</a>
+      <a href="#">History</a>
+    </nav>
+  </header>
+  <main>
+    <section class="featured">
+      <h2>Featured Lesson: The Water Cycle</h2>
+      <p><strong>Level:</strong> Beginner</p>
+      <p><strong>Languages:</strong> English, Swahili</p>
+      <a href="lessons/water-cycle.html">📖 Read Lesson</a>
+    </section>
+  </main>
+  <footer>
+    <p>© 2025 EduRoots</p>
+  </footer>
+</body>
+</html>
+"""
+
+# water-cycle.html
+lesson_html = """<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>The Water Cycle</title>
+  <link rel="stylesheet" href="../assets/css/style.css" />
+</head>
+<body>
+  <header>
+    <h1>The Water Cycle</h1>
+    <nav><a href="../index.html">← Back to Home</a></nav>
+  </header>
+  <main>
+    <h2>Objectives</h2>
+    <ul>
+      <li>Understand the steps in the water cycle</li>
+      <li>Learn keywords: evaporation, condensation, precipitation</li>
+    </ul>
+    <section>
+      <h3>Lesson (English)</h3>
+      <p>Water moves in a cycle... [rest of the lesson]</p>
+    </section>
+    <section>
+      <h3>Somo (Swahili)</h3>
+      <p>Maji husafiri kwa mzunguko... [rest of the translation]</p>
+    </section>
+    <section>
+      <h3>Quiz</h3>
+      <ul>
+        <li>a) Rain / Mvua</li>
+        <li>b) Condensation / Mng’ong’o</li>
+        <li><strong>c) Evaporation / Mvukizo ✅</strong></li>
+      </ul>
+    </section>
+  </main>
+  <footer>
+    <p>© 2025 EduRoots</p>
+  </footer>
+</body>
+</html>
+"""
+
+# CSS file
+style_css = """body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  background-color: #f4f4f4;
+}
+header, footer {
+  background-color: #2d572c;
+  color: white;
+  text-align: center;
+  padding: 1em;
+}
+nav a {
+  color: white;
+  margin: 0 1em;
+  text-decoration: none;
+}
+main {
+  padding: 20px;
+}
+.featured {
+  background: #fff;
+  padding: 20px;
+  border-radius: 5px;
+  margin-bottom: 20px;
+}
+"""
+
+# Write files
+with open(f"{base_dir}/index.html", "w") as f:
+    f.write(index_html)
+with open(f"{base_dir}/lessons/water-cycle.html", "w") as f:
+    f.write(lesson_html)
+with open(f"{base_dir}/assets/css/style.css", "w") as f:
+    f.write(style_css)
+
+# Create ZIP
+with zipfile.ZipFile("EduRoots_GitHub_Repo_Template.zip", "w") as zipf:
+    for folder, _, files in os.walk(base_dir):
+        for file in files:
+            filepath = os.path.join(folder, file)
+            arcname = os.path.relpath(filepath, base_dir)
+            zipf.write(filepath, os.path.join("EduRoots-demo", arcname))
+
